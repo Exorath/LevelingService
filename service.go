@@ -11,13 +11,16 @@ type levelingService struct{}
 
 
 func (levelingService) addExperience(uuid string, experience int) (success bool, err error) {
+	//TODO: IMPLEMENTATION
 	return false, nil
 }
 
 func (levelingService) getAccount(uuid string)  (account LevelAccount, err error){
+	//TODO: IMPLEMENTATION
 	return LevelAccount{uuid, 0, 0, make([]int, 0)}, nil
 }
 
 func (levelingService) consumeLevel(uuid string, level int) (success bool, err error){
+	//TODO: IMPLEMENTATION
 	return false, nil;
 }

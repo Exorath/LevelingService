@@ -11,6 +11,7 @@ import (
 	"strconv"
 	httptransport "github.com/go-kit/kit/transport/http"
 )
+
 func MakeHTTPHandler(ctx context.Context, s LevelingService) http.Handler {
 
 	r := mux.NewRouter()
