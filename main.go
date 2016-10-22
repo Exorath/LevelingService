@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"golang.org/x/net/context"
 	"net/http"
 )

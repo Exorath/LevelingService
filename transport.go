@@ -109,7 +109,7 @@ type getAccountRequest struct {
 }
 
 type getAccountResponse struct {
-	Account LevelAccount `json:"acc"`
+	Account *LevelAccount `json:"acc"`
 	Err error `json:"err,omitempty"` // errors don't define JSON marshaling
 }
 
