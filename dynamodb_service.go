@@ -47,11 +47,7 @@ func (svc dynamoService) consumeLevel(uuid string, level int) (success bool, err
 func getAddExperienceParams(tableName string, uuid string, experience int) dynamodb.UpdateItemInput {
 	var xpString = strconv.Itoa(experience)
 	return dynamodb.UpdateItemInput{
-		Key: map[string]*dynamodb.AttributeValue{
-			UUID_KEY: {
-				S: aws.String(uuid),
-			},
-		},
+		Key: getUuidUpdateKey(uuid),
 		TableName: aws.String(tableName),
 		AttributeUpdates: map[string]*dynamodb.AttributeValueUpdate{
 			XP_KEY: {
@@ -65,11 +61,7 @@ func getAddExperienceParams(tableName string, uuid string, experience int) dynam
 }
 func getGetAccountParams(tableName string, uuid string) dynamodb.GetItemInput{
 	return dynamodb.GetItemInput{
-		Key: map[string]*dynamodb.AttributeValue {
-			UUID_KEY: {
-				S: aws.String(uuid),
-			},
-		},
+		Key: getUuidUpdateKey(uuid),
 		TableName: aws.String(tableName),
 	}
 }
@@ -112,5 +104,13 @@ func getAccountFromAttributes(uuid string, values map[string]*dynamodb.Attribute
 		UnconsumedLevels: consumable,
 		Uuid: uuid,
 	}, nil
+}
+
+func getUuidUpdateKey(uuid string) map[string]*dynamodb.AttributeValue{
+	return map[string]*dynamodb.AttributeValue{
+		UUID_KEY: {
+			S: aws.String(uuid),
+		},
+	}
 }
 
