@@ -18,7 +18,8 @@ package main
 import (
 	"testing"
 	"github.com/satori/go.uuid"
-	//"github.com/aws/aws-sdk-go/service/dynamodb"
+	"strconv"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
 
 func TestGetGetAccountParams(t *testing.T) {
@@ -42,6 +43,25 @@ func TestGetUuidUpdateKey(t *testing.T) {
 	updateKey := getUuidUpdateKey(uuid)
 	if tUuid := *updateKey[UUID_KEY].S; uuid != tUuid {
 		t.Error("Expected", uuid, "got", tUuid)
+	}
+	if tLength := len(updateKey); tLength != 1 {
+		t.Error("Expected", 1, "got", tLength)
+	}
+}
+
+func TestGetAddExperienceAttributeUpdates(t *testing.T) {
+	var experience int = 125
+	updateKey := getAddExperienceAttributeUpdates(experience)
+	tExperience, err := strconv.Atoi(*updateKey[XP_KEY].Value.N)
+	if err != nil {
+		t.Error(err)
+	}
+	if experience != tExperience {
+		t.Error("Expected", experience, "got", tExperience)
+	}
+	action := dynamodb.AttributeActionAdd
+	if tAction := *updateKey[XP_KEY].Action; action != tAction {
+		t.Error("Expected", action, "got", tAction)
 	}
 	if tLength := len(updateKey); tLength != 1 {
 		t.Error("Expected", 1, "got", tLength)
