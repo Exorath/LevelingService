@@ -22,12 +22,20 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/aws/credentials"
+	"os"
+	"log"
+	"errors"
 )
 
 func main() {
+	region:= os.Getenv("AWS_REGION")
+	if(region == ""){
+		log.Fatal(errors.New("Did not find AWS_REGION environment variable."))
+		return;
+	}
 	db := *dynamodb.New(session.New(&aws.Config{
 		Region: aws.String("eu-central-1"),
-		Credentials: credentials.NewStaticCredentials("AKIAJOUPXBVKX627VCXQ", "WkGNvm38pxSgZnH/0HEXKIBFMiNzTqzPHrpULS4R", ""),
+		Credentials: credentials.NewEnvCredentials(),
 
 	}))
 	ctx := context.Background()
