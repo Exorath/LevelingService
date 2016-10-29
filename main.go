@@ -25,11 +25,22 @@ import (
 	"os"
 	"log"
 	"errors"
+	"strconv"
 )
 
 func main() {
 	region:= os.Getenv("AWS_REGION")
-	if(region == ""){
+	baseExperience, err := strconv.Atoi(os.Getenv("LS_BASE_XP"))
+	if err != nil{
+		log.Fatal(errors.New("Environment variable LS_BASE_XP was not configured correctly."))
+		return;
+	}
+	incrementExperience, err := strconv.Atoi(os.Getenv("LS_INC_XP"))
+	if err != nil{
+		log.Fatal(errors.New("Environment variable LS_INC_XP was not configured correctly."))
+		return;
+	}
+	if region == ""{
 		log.Fatal(errors.New("Did not find AWS_REGION environment variable."))
 		return;
 	}
@@ -39,7 +50,7 @@ func main() {
 
 	}))
 	ctx := context.Background()
-	svc := dynamoService{Db: db, TableName: "test", LevelFunction: LevelFunction{BaseExperience: 250, IncrementExperience: 750}}
+	svc := dynamoService{Db: db, TableName: "test", LevelFunction: LevelFunction{BaseExperience: baseExperience, IncrementExperience: incrementExperience}}
 
 	http.ListenAndServe(":8080", MakeHTTPHandler(ctx, svc))
 }
