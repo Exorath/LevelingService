@@ -34,7 +34,7 @@ func main() {
 		return;
 	}
 	db := *dynamodb.New(session.New(&aws.Config{
-		Region: aws.String("eu-central-1"),
+		Region: aws.String(region),
 		Credentials: credentials.NewEnvCredentials(),
 
 	}))
