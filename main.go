@@ -18,11 +18,20 @@ package main
 import (
 	"golang.org/x/net/context"
 	"net/http"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 )
 
 func main() {
+	db := *dynamodb.New(session.New(&aws.Config{
+		Region: aws.String("eu-central-1"),
+		Credentials: credentials.NewStaticCredentials("AKIAJOUPXBVKX627VCXQ", "WkGNvm38pxSgZnH/0HEXKIBFMiNzTqzPHrpULS4R", ""),
+
+	}))
 	ctx := context.Background()
-	svc := levelingService{}
+	svc := dynamoService{Db: db, TableName: "test", LevelFunction: LevelFunction{BaseExperience: 250, IncrementExperience: 750}}
 
 	http.ListenAndServe(":8080", MakeHTTPHandler(ctx, svc))
 }
