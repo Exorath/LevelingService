@@ -35,3 +35,7 @@ Exorath's leveling Microservice written in Go.
 **Response**: {"success": true}
 - success: whether or not the consumption succeeded
 - err: optional error
+
+
+
+*Source disclaimer: This is our first Golang written service, expect many code best practices to be broken in the source!*
